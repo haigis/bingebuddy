@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Netflix auto skip</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #1c1c1c;
+      color: #fff;
+      width: 300px;
+      padding: 20px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    h3 {
+      margin-top: 0;
+      margin-bottom: 20px;
+      font-size: 24px;
+      color: #E50914;
+    }
+    .option {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      margin-bottom: 20px;
+    }
+    .option label {
+      font-size: 18px;
+    }
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 28px;
+    }
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 34px;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 22px;
+      width: 22px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+    input:checked + .slider {
+      background-color: #2196F3;
+    }
+    input:checked + .slider:before {
+      transform: translateX(22px);
+    }
+    .status {
+      display: none;
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h3>Netflix binge settings</h3>
+  <div class="option">
+    <label for="skipIntro">Auto-skip intros</label>
+    <label class="switch">
+      <input type="checkbox" id="skipIntro">
+      <span class="slider"></span>
+    </label>
+  </div>
+  <div class="option">
+    <label for="nextEpisode">Auto-play next episode</label>
+    <label class="switch">
+      <input type="checkbox" id="nextEpisode">
+      <span class="slider"></span>
+    </label>
+  </div>
+  <div class="option">
+    <label for="exitButtonToggle">Close tab after viewing</label>
+    <label class="switch">
+      <input type="checkbox" id="exitButtonToggle">
+      <span class="slider"></span>
+    </label>
+  </div>
+  <div id="saveIcon" class="status">Settings Saved</div>
+  <script src="popup.js"></script>
+</body>
+</html>

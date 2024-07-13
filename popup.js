@@ -3,6 +3,9 @@ document.addEventListener('DOMContentLoaded', function() {
   const nextEpisodeCheckbox = document.getElementById('nextEpisode');
   const exitButtonToggleCheckbox = document.getElementById('exitButtonToggle');
   const saveIcon = document.getElementById('saveIcon');
+  const searchInput = document.getElementById('genreSearch');
+  const genreList = document.getElementById('genreList');
+  const body = document.querySelector('body');
 
   // Load settings from storage and apply them to the checkboxes
   function loadSettings() {
@@ -33,27 +36,47 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Add event listeners to save settings when checkboxes change
   skipIntroCheckbox.addEventListener('change', saveSettings);
-  nextEpisodeCheckbox.addEventListener('change', saveSettings);
-  exitButtonToggleCheckbox.addEventListener('change', saveSettings);
+  nextEpisodeCheckbox.addEventListener('change', function() {
+    if (nextEpisodeCheckbox.checked) {
+      exitButtonToggleCheckbox.checked = false;
+    }
+    saveSettings();
+  });
+  exitButtonToggleCheckbox.addEventListener('change', function() {
+    if (exitButtonToggleCheckbox.checked) {
+      nextEpisodeCheckbox.checked = false;
+    }
+    saveSettings();
+  });
 
   // Initial load of settings
   loadSettings();
-});
 
-document.getElementById('genreSearch').addEventListener('input', function() {
-  const input = this.value.toLowerCase();
-  const suggestions = genres.filter(genre => genre.name.toLowerCase().includes(input));
-  const suggestionBox = document.getElementById('autocomplete-list');
-  
-  suggestionBox.innerHTML = '';
-  
-  suggestions.forEach(genre => {
-    const div = document.createElement('div');
-    div.className = 'autocomplete-suggestion';
-    div.textContent = genre.name;
-    div.addEventListener('click', () => {
-      window.open(`https://www.netflix.com/browse/genre/${genre.code}`, '_blank');
+  // Expand the body when the search input is focused
+  searchInput.addEventListener('focus', function() {
+    body.style.height = '800px';
+  });
+
+  // Filter genres based on search input
+  function renderGenres(genresToRender) {
+    genreList.innerHTML = '';
+    genresToRender.forEach(genre => {
+      const div = document.createElement('div');
+      div.className = 'genre-item';
+      div.textContent = genre.name;
+      div.addEventListener('click', () => {
+        window.open(`https://www.netflix.com/browse/genre/${genre.code}`, '_blank');
+      });
+      genreList.appendChild(div);
     });
-    suggestionBox.appendChild(div);
+  }
+
+  // Load genres from search.js
+  renderGenres(genres); // Initial render
+
+  searchInput.addEventListener('input', () => {
+    const query = searchInput.value.toLowerCase();
+    const filteredGenres = genres.filter(genre => genre.name.toLowerCase().includes(query));
+    renderGenres(filteredGenres);
   });
 });

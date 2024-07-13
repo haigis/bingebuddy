@@ -1,11 +1,12 @@
 {
   "manifest_version": 2,
   "name": "Binge Buddy for Netflix",
-  "version": "1.5",
+  "version": "1.6",
   "description": "Automatically skip intros, play the next episode, and exit to browse on Netflix.",
   "permissions": [
     "activeTab",
-    "storage"
+    "storage",
+    "tabs"
   ],
   "background": {
     "scripts": ["background.js"],

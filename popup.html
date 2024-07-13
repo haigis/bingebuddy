@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Netflix auto skip</title>
+  <title>Binge Buddy for Netflix</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -11,28 +11,48 @@
       padding: 0;
       background-color: #1c1c1c;
       color: #fff;
-      width: 300px;
+      width: 400px;
+      height: 800px; /* Set default height for the popup */
       padding: 20px;
       box-sizing: border-box;
       display: flex;
       flex-direction: column;
       align-items: center;
+      overflow-y: auto; /* Allow vertical scrolling */
     }
-    h3 {
-      margin-top: 0;
+    img.logo {
+      width: 100px;
+      height: auto;
       margin-bottom: 20px;
-      font-size: 24px;
-      color: #E50914;
+    }
+    h1, h2 {
+      color: #fff;
+      margin: 5px 0;
+      text-align: center;
+    }
+    h2 {
+      font-size: 18px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+    .settings-container {
+      width: 90%;
+      padding: 10px;
+      background-color: #333;
+      border-radius: 4px;
+
     }
     .option {
       display: flex;
       align-items: center;
       justify-content: space-between;
       width: 100%;
-      margin-bottom: 20px;
+      margin-top: 10px;
+      margin-bottom: 10px;
     }
     .option label {
       font-size: 18px;
+      color: #fff;
     }
     .switch {
       position: relative;
@@ -83,32 +103,73 @@
       padding: 10px;
       border-radius: 5px;
     }
+    .search-box {
+      width: 90%;
+      padding: 10px;
+      border: none;
+      border-radius: 4px;
+      margin-bottom: 20px;
+      background-color: #333;
+      color: #fff;
+    }
+    .genre-list {
+      width: 90%;
+      background: #333;
+      border: 1px solid #ddd;
+      max-height: 300px;
+      overflow-y: auto;
+      overflow-x: hidden;
+      z-index: 1000;
+      border-radius: 4px;
+      margin-bottom: 20px;
+    }
+    .genre-item {
+      padding: 10px;
+      cursor: pointer;
+      color: #fff;
+      border-bottom: 1px solid #ddd;
+    }
+    .genre-item:hover {
+      background: #555;
+    }
+    .subheading{
+      margin-top: 30px;
+    }
   </style>
 </head>
 <body>
-  <h3>Netflix binge settings</h3>
-  <div class="option">
-    <label for="skipIntro">Auto-skip intros</label>
-    <label class="switch">
-      <input type="checkbox" id="skipIntro">
-      <span class="slider"></span>
-    </label>
+  <img src="icons/binge-buddy.png" alt="BingeBuddy Logo" class="logo">
+  <h1>Binge Buddy</h1>
+  <h2>Netflix settings</h2>
+  <div class="settings-container">
+    <div class="option">
+      <label for="skipIntro">Skip intro</label>
+      <label class="switch">
+        <input type="checkbox" id="skipIntro">
+        <span class="slider"></span>
+      </label>
+    </div>
+    <div class="option">
+      <label for="nextEpisode">Watch next video</label>
+      <label class="switch">
+        <input type="checkbox" id="nextEpisode">
+        <span class="slider"></span>
+      </label>
+    </div>
+    <div class="option">
+      <label for="exitButtonToggle">Exit after video</label>
+      <label class="switch">
+        <input type="checkbox" id="exitButtonToggle">
+        <span class="slider"></span>
+      </label>
+    </div>
   </div>
-  <div class="option">
-    <label for="nextEpisode">Auto-play next episode</label>
-    <label class="switch">
-      <input type="checkbox" id="nextEpisode">
-      <span class="slider"></span>
-    </label>
-  </div>
-  <div class="option">
-    <label for="exitButtonToggle">Close tab after viewing</label>
-    <label class="switch">
-      <input type="checkbox" id="exitButtonToggle">
-      <span class="slider"></span>
-    </label>
-  </div>
+  <h2 class="subheading">Search hidden categories</h2>
+  <input type="text" id="genreSearch" class="search-box" placeholder="Search for a genre...">
+  <div id="autocomplete-list" class="autocomplete-suggestions"></div>
+  <div id="genreList" class="genre-list"></div>
   <div id="saveIcon" class="status">Settings Saved</div>
   <script src="popup.js"></script>
+  <script src="search.js?v=1.0"></script>
 </body>
 </html>

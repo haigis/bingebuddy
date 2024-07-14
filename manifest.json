@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
-  "name": "Binge Buddy for Netflix",
-  "version": "1.6",
-  "description": "Automatically skip intros, play the next episode, and exit to browse on Netflix.",
+  "name": "Binge Buddy for Netflix and Prime",
+  "version": "2.0",
+  "description": "Automatically skip intros, play the next episode, and exit to browse on Netflix and Amazon Prime Video.",
   "permissions": [
     "activeTab",
     "storage",
@@ -15,7 +15,28 @@
   "content_scripts": [
     {
       "matches": ["*://*.netflix.com/*"],
-      "js": ["content.js"]
+      "js": ["netflix.js"]
+    },
+    {
+      "matches": [
+        "*://*.amazon.com/*",
+        "*://*.amazon.co.uk/*",
+        "*://*.amazon.de/*",
+        "*://*.amazon.co.jp/*",
+        "*://*.amazon.in/*",
+        "*://*.amazon.ca/*",
+        "*://*.amazon.com.au/*",
+        "*://*.amazon.com.br/*",
+        "*://*.amazon.com.mx/*",
+        "*://*.amazon.cn/*",
+        "*://*.amazon.es/*",
+        "*://*.amazon.fr/*",
+        "*://*.amazon.it/*",
+        "*://*.amazon.nl/*",
+        "*://*.amazon.se/*",
+        "*://*.amazon.sg/*"
+      ],
+      "js": ["amazon.js"]
     }
   ],
   "browser_action": {
@@ -33,7 +54,7 @@
   },
   "browser_specific_settings": {
     "gecko": {
-      "id": "BingeBuddy@github.com-haigis"
+      "id": "BingeBuddyForNetflixPrime@github.com-haigis"
     }
   }
 }

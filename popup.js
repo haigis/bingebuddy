@@ -6,6 +6,13 @@ document.addEventListener('DOMContentLoaded', function() {
   const searchInput = document.getElementById('genreSearch');
   const genreList = document.getElementById('genreList');
   const body = document.querySelector('body');
+  const netflixOnlySection = document.getElementById('netflix-only');
+
+  // Function to resize the popup based on content
+  function resizePopup() {
+    const bodyHeight = document.body.scrollHeight;
+    chrome.runtime.sendMessage({ action: 'resizePopup', height: bodyHeight });
+  }
 
   // Load settings from storage and apply them to the checkboxes
   function loadSettings() {
@@ -14,6 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
       skipIntroCheckbox.checked = settings.skipIntro ?? false;
       nextEpisodeCheckbox.checked = settings.nextEpisode ?? false;
       exitButtonToggleCheckbox.checked = settings.exitAfterVideo ?? false;
+      resizePopup(); // Resize popup after loading settings
     });
   }
 
@@ -31,6 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
       setTimeout(() => {
         saveIcon.style.display = 'none';
       }, 1000);
+      resizePopup(); // Resize popup after saving settings
     });
   }
 
@@ -52,9 +61,19 @@ document.addEventListener('DOMContentLoaded', function() {
   // Initial load of settings
   loadSettings();
 
+  // Show genre search section only on Netflix
+  chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
+    const url = tabs[0].url;
+    if (url.includes('netflix.com')) {
+      netflixOnlySection.classList.remove('hidden');
+      resizePopup(); // Resize popup when showing the Netflix-only section
+    }
+  });
+
   // Expand the body when the search input is focused
   searchInput.addEventListener('focus', function() {
     body.style.height = '800px';
+    resizePopup();
   });
 
   // Filter genres based on search input
@@ -69,6 +88,7 @@ document.addEventListener('DOMContentLoaded', function() {
       });
       genreList.appendChild(div);
     });
+    resizePopup(); // Resize popup after rendering genres
   }
 
   // Load genres from search.js

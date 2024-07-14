@@ -20,7 +20,7 @@ function clickButtonByText(text) {
     }
   }
   
-  function checkAndClickNetflixButtons() {
+  function checkAndClickButtons() {
     chrome.storage.sync.get(['skipIntro', 'nextEpisode', 'exitAfterVideo'], (options) => {
       // Set default values if options are undefined
       options = options || { skipIntro: true, nextEpisode: true, exitAfterVideo: false };
@@ -45,9 +45,9 @@ function clickButtonByText(text) {
     });
   }
   
-  const observer = new MutationObserver(checkAndClickNetflixButtons);
+  const observer = new MutationObserver(checkAndClickButtons);
   observer.observe(document, { childList: true, subtree: true });
   
   // Initial check when the script is loaded
-  checkAndClickNetflixButtons();
+  checkAndClickButtons();
   
